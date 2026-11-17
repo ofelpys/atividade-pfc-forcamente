@@ -655,9 +655,14 @@ function Quiz() {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const [started, setStarted] = useState(false);
+  const questionRef = useRef(null);
+  const feedbackRef = useRef(null);
+  const resultRef = useRef(null);
   const question = quizQuestions[step];
   const answer = () => {
-    if (selected === null) return;
+    if (selected === null || revealed) return;
+    setStarted(true);
     setRevealed(true);
     if (selected === question.answer) setScore((value) => value + 1);
   };
@@ -676,6 +681,12 @@ function Quiz() {
     setScore(0);
     setDone(false);
   };
+
+  useEffect(() => {
+    if (done) resultRef.current?.focus();
+    else if (revealed) feedbackRef.current?.focus();
+    else if (started) questionRef.current?.focus();
+  }, [done, revealed, step, started]);
 
   return (
     <>
@@ -707,7 +718,7 @@ function Quiz() {
                   </span>
                 </div>
                 <span className="eyebrow">QUIZ CONCLUÍDO</span>
-                <h2>
+                <h2 ref={resultRef} tabIndex={-1}>
                   {score === quizQuestions.length
                     ? "Excelente revisão!"
                     : "Cada resposta é um novo começo."}
@@ -747,7 +758,9 @@ function Quiz() {
                     }}
                   />
                 </div>
-                <h2>{question.question}</h2>
+                <h2 ref={questionRef} tabIndex={-1}>
+                  {question.question}
+                </h2>
                 <div
                   className="quiz-options"
                   role="group"
@@ -773,7 +786,12 @@ function Quiz() {
                   ))}
                 </div>
                 {revealed && (
-                  <div className="answer-feedback" role="status">
+                  <div
+                    className="answer-feedback"
+                    role="status"
+                    tabIndex={-1}
+                    ref={feedbackRef}
+                  >
                     <strong>
                       {selected === question.answer
                         ? "Resposta certa!"
@@ -955,7 +973,7 @@ function NumberField({
           step={step}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          inputMode={step === "any" ? "decimal" : "numeric"}
+          inputMode={step === "1" ? "numeric" : "decimal"}
         />
         <small>{unit}</small>
       </div>
@@ -976,10 +994,10 @@ function Calculators() {
     Number(value) <= max;
   const validInteger = (value, min, max) =>
     valid(value, min, max) && Number.isInteger(Number(value));
+  const validLoad = (value) =>
+    valid(value, 0, 500) && /^\d+(?:\.\d{1,2})?$/.test(value);
   const volume =
-    validInteger(sets, 1, 20) &&
-    validInteger(reps, 1, 50) &&
-    valid(load, 0, 500)
+    validInteger(sets, 1, 20) && validInteger(reps, 1, 50) && validLoad(load)
       ? Number(sets) * Number(reps) * Number(load)
       : null;
   const aerobic =
@@ -1035,7 +1053,7 @@ function Calculators() {
                 min="0"
                 max="500"
                 unit="kg"
-                step="any"
+                step="0.01"
               />
             </div>
             <div className="calculator-result" aria-live="polite">
