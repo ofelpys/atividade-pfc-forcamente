@@ -4,6 +4,11 @@ Projeto React criado para a atividade de Programação para Internet. O site apr
 
 Esta entrega é um protótipo de apresentação do PFC. As interações desta atividade são demonstrativas e executadas no navegador; não há integração com a API ou com o banco de dados do projeto principal.
 
+## Links da entrega
+
+- **GitHub:** [ofelpys/atividade-pfc-forcamente](https://github.com/ofelpys/atividade-pfc-forcamente)
+- **Vercel:** [atividade-pfc-forcamente.vercel.app](https://atividade-pfc-forcamente.vercel.app/)
+
 ## Páginas
 
 O menu reúne seis páginas inspiradas nas seções do [site do ForçaMente](https://pfc-frontend-two.vercel.app/):
@@ -55,7 +60,7 @@ O comando de build gera a pasta `dist`.
 4. Selecione **Vite** como framework, `npm run build` como comando de build e `dist` como diretório de saída.
 5. Faça o deploy e confira diretamente as seis páginas e um artigo, inclusive após atualizar uma rota no navegador. O arquivo `vercel.json` inclui a regra de reescrita necessária para as rotas do aplicativo.
 
-Este repositório de atividade é distinto do [front-end principal do PFC](https://github.com/forcamente2026/PFC-FRONTEND). O endereço público do deploy desta atividade deve ser adicionado aqui após a publicação.
+Este repositório de atividade é distinto do [front-end principal do PFC](https://github.com/forcamente2026/PFC-FRONTEND). O projeto da Vercel está conectado a este repositório para publicar atualizações futuras da branch `main`.
 
 ## Referências para o conteúdo
 
